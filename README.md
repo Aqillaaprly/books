@@ -82,3 +82,20 @@ Step 2 demonstrates a basic `Completer` pattern where a `Future` is completed af
 </p>
 
 ## Practical 4 : Calling Future in Parallel 
+### Question 7 
+
+<p align="center">
+  <img src="img\q7.gif" width="250" alt="1" />
+</p>
+
+### Question 8 
+**Explain the meaning of the difference between code steps 1 and 4!**
+
+Step 1 utilized `FutureGroup` (from the `package:async` library), which allows futures to be added dynamically and the group to be closed later—ideal when all futures aren’t known in advance. Step 4, on the other hand, employed the built-in `Future.wait`, which takes a predefined list of futures and is more straightforward when all tasks are known ahead of time. Both approaches execute futures concurrently and return a list of results once all have completed. In summary, `FutureGroup` is suited for dynamic future collection, while `Future.wait` is best for fixed sets, with parallel execution minimizing total runtime to approximately the duration of the longest task.
+
+
+<p align="center">
+  <img src="img\q8.gif" width="250" alt="1" />
+</p>
+
+## Practical 5 : Handling Error Responses in Async Code
