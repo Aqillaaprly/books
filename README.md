@@ -61,3 +61,24 @@ This code illustrates important concepts in asynchronous programming in Flutter:
 
 
 ## Practical 3 : Using Completer in Future
+### Question 5
+**Explain the meaning of the code in step 2!**
+<p align="center">
+  <img src="img\q5.png" width="250" alt="1" />
+</p>
+The code defines a `late Completer` variable that will be initialized later to manage asynchronous operations. The `getNumber()` method creates a new `Completer<int>` instance, starts an asynchronous process by calling `calculate()`, and immediately returns `completer.future`, allowing other code to await its completion. The `calculate()` method then simulates a five-second delay using `Future.delayed`, after which it calls `completer.complete(42)` to finish the Future and deliver the value `42` to any awaiting code, demonstrating how a `Completer` controls when a Future is resolved.
+
+<p align="center">
+  <img src="img\q6.gif" width="250" alt="1" />
+</p>
+
+### Questionn 6
+**Explain the difference between the code for step 2 and steps 5-6!**
+
+Step 2 demonstrates a basic `Completer` pattern where a `Future` is completed after a short delay. In steps 5–6, error handling is enhanced by adding a `try/catch` block inside the `calculate()` method to catch exceptions and call `completer.completeError`, while a `.catchError(...)` handler is added to the `getNumber().then(...)` chain to allow the UI to respond appropriately to errors. This results in a more reliable and resilient process that properly propagates errors rather than leaving the `Future` hanging unresolved.
+
+<p align="center">
+  <img src="img\q6.gif" width="250" alt="1" />
+</p>
+
+## Practical 4 : Calling Future in Parallel 
