@@ -2,6 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
+import 'geolocation.dart';
+import 'navigation_first.dart';
+import 'navigation_second.dart';
+import 'navigation_dialog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const FuturePage(),
+      home: const NavigationDialogScreen(),
     );
   }
 }
@@ -85,6 +89,23 @@ class _FuturePageState extends State<FuturePage> {
         result = 'An error occurred';
         _loading = false;
       });
+    }
+  }
+
+  Future<void> returnError() async {
+    await Future.delayed(const Duration(seconds: 2));
+    throw Exception('Something terrible happened!');
+  }
+
+  Future handleError() async {
+    try {
+      await returnError();
+    } catch (error) {
+      setState(() {
+        result = error.toString();
+      });
+    } finally {
+      print('Complete');
     }
   }
 
@@ -161,7 +182,18 @@ class _FuturePageState extends State<FuturePage> {
               ElevatedButton(
                 child: const Text('GO!'),
                 onPressed: () {
-                  returnFG();
+                  returnError()
+                      .then((value) {
+                        setState(() {
+                          result = 'Success';
+                        });
+                      })
+                      .catchError((onError) {
+                        setState(() {
+                          result = onError.toString();
+                        });
+                      })
+                      .whenComplete(() => print('Complete'));
                 },
               ),
               if (_loading) const CircularProgressIndicator(),
